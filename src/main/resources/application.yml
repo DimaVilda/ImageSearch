@@ -1,0 +1,21 @@
+sync:
+  time: 120000
+  url: http://interview.agileengine.com:80/images
+
+auth:
+  url: http://interview.agileengine.com:80/auth
+  apiKey: 23567b218376f79d9415
+
+spring:
+  jpa:
+    database: POSTGRESQL
+    show-sql: true
+  datasource:
+    platform: postgres
+    url: jdbc:postgresql://localhost:5433/img
+    username: postgres
+    password: root
+    driverClassName: org.postgresql.Driver
+
+server:
+  port: 9090
