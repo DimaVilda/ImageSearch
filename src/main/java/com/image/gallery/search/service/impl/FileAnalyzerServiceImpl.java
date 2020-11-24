@@ -5,9 +5,6 @@ import com.image.gallery.search.service.FileAnalyzerService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.springframework.stereotype.Service;
-
-import javax.swing.*;
-import javax.swing.filechooser.FileSystemView;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -40,9 +37,10 @@ public class FileAnalyzerServiceImpl implements FileAnalyzerService {
     }
 
     private File downloadByURL(String url) throws IOException {
-        final JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
-        FileUtils.copyURLToFile(new URL(url), jfc.getSelectedFile());
-        return jfc.getSelectedFile();
+        String fileName = url.substring(url.lastIndexOf("/") + 1);
+        final File file = new File("images/" + fileName);
+        FileUtils.copyURLToFile(new URL(url.replace(" ", "%20")), file);
+        return file;
     }
 
     private HashMap<String, String> getMetaData(File file) throws IOException {
