@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface FileAnalyzerService {
 
-    List<Image> interceptImageListWithMeta(List<Image> imageList) throws IOException;
+    List<Image> interceptImageListWithMeta(List<Image> imageList);
 }

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseBody
 public class GlobalExceptionHandler {
 
+    //// TODO: 24.11.20
     @ExceptionHandler
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ErrorDto handleException(Exception e) {

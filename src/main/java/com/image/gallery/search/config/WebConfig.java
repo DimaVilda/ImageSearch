@@ -31,25 +31,4 @@ public class WebConfig {
         return restTemplate;
     }
 
-    @Bean
-    FileAnalyzerService fileAnalyzerService() {
-        return new FileAnalyzerServiceImpl();
-    }
-
-    @Bean
-    ScheduledTask scheduledTask(ImageService imageService, FileAnalyzerService fileAnalyzerService,
-                                RestTemplate restTemplate, @Value("${sync.url}") String url) {
-        return new ScheduledTask(imageService, fileAnalyzerService, restTemplate, url);
-    }
-
-    @Bean
-    AuthorizationService authorizationService(@Value("${auth.url}") String url,
-                                              @Value("${auth.apiKey}") String apiKey) {
-        return new AuthorizationServiceImpl(url, apiKey);
-    }
-
-    @Bean
-    String string() {
-        return "";
-    }
 }

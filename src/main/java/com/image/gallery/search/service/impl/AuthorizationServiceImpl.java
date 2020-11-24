@@ -7,38 +7,37 @@ import com.image.gallery.search.model.auth.Token;
 import com.image.gallery.search.service.AuthorizationService;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-
-import java.util.Objects;
 
 @Service
 @Slf4j
 public class AuthorizationServiceImpl implements AuthorizationService {
 
     private final RestTemplate restTemplate;
-    private final String url;
-    private final Credential credential;
+    @Value("${auth.apiKey}")
+    private String apiKey;
+    @Value("${auth.url}")
+    private String url;
+
     private Token token;
 
-    public AuthorizationServiceImpl(String url, String apiKey) {
+    public AuthorizationServiceImpl() {
         this.restTemplate = new RestTemplate();
-        this.url = Objects.requireNonNull(url);
-        this.credential = new Credential(Objects.requireNonNull(apiKey));
     }
 
     @SneakyThrows
     @Override
     public Token authorise() {
-        //// TODO: 21.11.20
         log.info("[AuthorizationServiceImpl] : authorise triggered");
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.set("Accept", "*/*");
-        headers.set("Accept-Encoding", "gzip, deflate, br");
-        headers.set("Connection", "keep-alive");
-        final HttpEntity<String> requestEntity = new HttpEntity<>(new ObjectMapper().writeValueAsString(credential), headers);
+        headers.set(HttpHeaders.ACCEPT, "*/*");
+        headers.set(HttpHeaders.ACCEPT_ENCODING, "gzip, deflate, br");
+        headers.set(HttpHeaders.CONNECTION, "keep-alive");
+        final HttpEntity<String> requestEntity = new HttpEntity<>(new ObjectMapper().writeValueAsString(new Credential(apiKey)), headers);
         final ResponseEntity<Token> tokenResponse = restTemplate.exchange(url, HttpMethod.POST, requestEntity, Token.class);
         if (tokenResponse.getStatusCode().is2xxSuccessful()) {
             this.token = tokenResponse.getBody();
