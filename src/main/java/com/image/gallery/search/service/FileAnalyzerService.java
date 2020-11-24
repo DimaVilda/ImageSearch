@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface FileAnalyzerService {
 
-    List<Image> interceptImageListWithMeta(List<Image> imageList);
+    List<Image> interceptImageListWithMeta(List<Image> imageList, int page);
 }

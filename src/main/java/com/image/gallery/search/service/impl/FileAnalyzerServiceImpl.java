@@ -9,9 +9,12 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -24,10 +27,10 @@ public class FileAnalyzerServiceImpl implements FileAnalyzerService {
     public static final String SYMBOLIC_LINK = "symbolicLink";
 
     @Override
-    public List<Image> interceptImageListWithMeta(List<Image> imageList) {
+    public List<Image> interceptImageListWithMeta(List<Image> imageList, int page) {
         for (Image image : imageList) {
             try {
-                final File file = downloadByURL(image.getUrl());
+                final File file = downloadByURL(image.getUrl(), page);
                 image.setMeta(getMetaData(file));
             } catch (IOException e) {
                 log.error("[FileAnalyzerServiceImpl] error analyzing image {} ", image.getId(), e);
@@ -36,9 +39,9 @@ public class FileAnalyzerServiceImpl implements FileAnalyzerService {
         return imageList;
     }
 
-    private File downloadByURL(String url) throws IOException {
-        String fileName = url.substring(url.lastIndexOf("/") + 1);
-        final File file = new File("images/" + fileName);
+    private File downloadByURL(String url, int page) throws IOException {
+        final String fileName = url.substring(url.lastIndexOf("/") + 1);
+        final File file = new File("images_page" + page + "/" + fileName);
         FileUtils.copyURLToFile(new URL(url.replace(" ", "%20")), file);
         return file;
     }

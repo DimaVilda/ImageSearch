@@ -36,7 +36,7 @@ public class ScheduledTask {
             final ResponseEntity<Page> response = restTemplate.exchange(url + "?page=" + page, HttpMethod.GET, null, Page.class);
             final Page responseBody = response.getBody();
             if (response.getStatusCode().is2xxSuccessful() && responseBody != null) {
-                final List<Image> images = fileAnalyzerService.interceptImageListWithMeta(responseBody.getPictures());
+                final List<Image> images = fileAnalyzerService.interceptImageListWithMeta(responseBody.getPictures(), page);
                 imageService.saveAll(images);
                 hasMore = responseBody.getHasMore();
                 page++;
