@@ -7,12 +7,9 @@ auth:
   apiKey: 23567b218376f79d9415
 
 spring:
-  jpa:
-    database: POSTGRESQL
-    show-sql: true
   datasource:
     platform: postgres
-    url: jdbc:postgresql://localhost:5433/img
+    url: jdbc:postgresql://postgresqldb/img?currentSchema=img
     username: postgres
     password: root
     driverClassName: org.postgresql.Driver
